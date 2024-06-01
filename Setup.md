@@ -1,6 +1,7 @@
 # Speedrunning Mirror's Edge on Linux
 
-## This guide assumes you're playing on the Steam version of the game. Everything is still possible with other versions but you'll have to fill in the Steam-specific gaps for yourself.
+### This guide assumes you're playing on the Steam version of the game. Everything is still possible with other versions but you'll have to fill in the Steam-specific gaps for yourself.
+<br />
 
 ### Step 1 - Replacing the game's executable
 Due to issues surrounding Steam and EA DRM, you'll have to replace your game's executable with the GoG No Loads executable. This can be found on Medge's SRC Resources page.  
