@@ -4,6 +4,12 @@ MedgingOnLinux is a script that's designed to help get people speedrunning Mirro
 ### Prerequisites
 - You have the Steam version installed (support for Origin may be added at some point).
 - You already have your GPU drivers sorted out. Read [this page](https://github.com/lutris/docs/blob/master/InstallingDrivers.md) on the Lutris wiki if you aren't sure.
+- You are running a supported distro.
+
+
+### Supported distros
+- Arch Linux (and all derivatives, such as Manjaro or ElementaryOS)
+- Debian/Ubuntu (and all derivatives, such as Linux Mint or Pop_OS!)
 
 
 ### Usage
