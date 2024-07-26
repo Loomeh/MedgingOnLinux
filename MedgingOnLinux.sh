@@ -18,6 +18,36 @@ fi
 echo -e "${RED}MedgingOnLinux setup utility${NC}"
 echo "Detected OS: $os_name"
 
+# Function to check and install xdelta3 on Debian/Ubuntu
+check_and_install_xdelta3_deb() {
+    xdeltapkg="xdelta3"
+    if dpkg -l | grep -qw "${xdeltapkg}"; then
+        echo -e "${GREEN}${xdeltapkg} is installed${NC}"
+    else
+        if ! sudo apt install -y "${xdeltapkg}"; then
+            echo "Failed to install ${xdeltapkg}."
+            exit 1
+        else
+            echo -e "${GREEN}${xdeltapkg} is installed${NC}"
+        fi
+    fi
+}
+
+# Function to check and install xdelta3 on Arch
+check_and_install_xdelta3_arch() {
+    xdeltapkg="xdelta3"
+    if pacman -Qs "${xdeltapkg}" >/dev/null; then
+        echo -e "${GREEN}${xdeltapkg} is installed${NC}"
+    else
+        if ! sudo pacman -S --noconfirm "${xdeltapkg}"; then
+            echo "Failed to install ${xdeltapkg}."
+            exit 1
+        else
+            echo -e "${GREEN}${xdeltapkg} is installed${NC}"
+        fi
+    fi
+}
+
 # Check if the OS is Arch Linux
 if [ "$os_name" = "Arch Linux" ]; then
     # Prompt the user to update the system
@@ -29,20 +59,7 @@ if [ "$os_name" = "Arch Linux" ]; then
             exit 1
         fi
     fi
-
-    xdeltapkg="xdelta3"
-    # Check if xdelta3 is installed
-    if pacman -Qs "${xdeltapkg}" >/dev/null; then
-        echo -e "${GREEN}${xdeltapkg} is installed${NC}"
-    else
-        # Install xdelta3 if not installed
-        if ! sudo pacman -S --noconfirm "${xdeltapkg}"; then
-            echo "Failed to install ${xdeltapkg}."
-            exit 1
-        else
-            echo -e "${GREEN}${xdeltapkg} is installed${NC}"
-        fi
-    fi
+    check_and_install_xdelta3_arch
 fi
 
 # Check if the OS is Debian or Ubuntu
@@ -60,20 +77,7 @@ if [ "$os_name" = "Debian" ] || [ "$os_name" = "Ubuntu" ]; then
             exit 1
         fi
     fi
-
-    xdeltapkg="xdelta3"
-    # Check if xdelta3 is installed
-    if apt list | grep "${xdeltapkg}" >/dev/null; then
-        echo -e "${GREEN}${xdeltapkg} is installed${NC}"
-    else
-        # Install xdelta3 if not installed
-        if ! sudo apt install -y "${xdeltapkg}"; then
-            echo "Failed to install ${xdeltapkg}."
-            exit 1
-        else
-            echo -e "${GREEN}${xdeltapkg} is installed${NC}"
-        fi
-    fi
+    check_and_install_xdelta3_deb
 fi
 
 default_dir="$HOME/.local/share/Steam/steamapps/common/mirrors edge"
