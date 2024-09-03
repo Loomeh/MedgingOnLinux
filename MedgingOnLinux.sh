@@ -118,8 +118,8 @@ fi
 livesplit_dir=$(realpath "$livesplit_dir")
 
 # Download the latest multiplayer release
-LAUNCHER_URL=$(curl -s https://api.github.com/repos/Toyro98/mmultiplayer/releases/latest | grep -oP '"browser_download_url": "\K(.*Launcher.exe)(?=")')
-DLL_URL=$(curl -s https://api.github.com/repos/Toyro98/mmultiplayer/releases/latest | grep -oP '"browser_download_url": "\K(.*mmultiplayer.dll)(?=")')
+LAUNCHER_URL=$(curl -s https://api.github.com/repos/LucasOe/mmultiplayer/releases/latest | grep -oP '"browser_download_url": "\K(.*Launcher.exe)(?=")')
+DLL_URL=$(curl -s https://api.github.com/repos/LucasOe/mmultiplayer/releases/latest | grep -oP '"browser_download_url": "\K(.*mmultiplayer.dll)(?=")')
 if [ -n "$LAUNCHER_URL" ] && [ -n "$DLL_URL" ]; then
     if wget -q -O Launcher.exe "$LAUNCHER_URL" && wget -q -O mmultiplayer.dll "$DLL_URL"; then
         echo -e "${GREEN}Launcher.exe and mmultiplayer.dll downloaded successfully!${NC}"
