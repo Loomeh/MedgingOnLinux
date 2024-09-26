@@ -26,3 +26,26 @@ chmod +x MedgingOnLinux.sh
 ```
 
 The script will guide you through the process. Make sure to read the instructions at the end, they're important!
+
+
+### Troubleshooting / FAQ
+#### - The script says it failed to patch the executable
+Read the error that the script produced. If it says "checksum mismatch" anywhere, it means that the Mirror's Edge executable has already been modified and is not the original Steam executable. Verify the game's integrity in Steam and try again.
+
+If it says it can't find the file, it means you entered your Mirror's Edge game directory incorrectly.
+
+
+#### - Why is it asking for my LiveSplit directory? I thought LiveSplit didn't run on Linux
+It doesn't. LiveSplit runs through Wine. The purpose of the script is to make it so the autosplitter connection between Mirror's Edge and LiveSplit functions correctly.
+
+
+#### - I get a "Failed to find D3D9 exports" error when trying to launch Multiplayer Mod.
+This is a known issue and is seemingly an issue with the Multiplayer Mod itself and cannot be fixed within Proton/Wine. The only potential remedy is to try and use the old Multiplayer Mod by btbd. Otherwise, just wait.
+
+
+#### - What mods can I use?
+The only game file the script touches is the MirrorsEdge.exe executable file. Any mod that doesn't replace that file is fine.
+
+
+#### - LiveSplit looks weird/glitchy
+This is because the Mirror's Edge Proton wine prefix doesn't come with many Windows dependencies by default, leading to LiveSplit looking weird. This can be fixed by using a Proton package that comes with more built in Windows dependencies (such as Proton-GE) or by installing corefonts via Protontricks.
