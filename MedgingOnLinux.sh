@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Define color variables
 RED='\033[0;31m'
@@ -48,6 +48,27 @@ check_and_install_xdelta3_arch() {
     fi
 }
 
+check_and_install_xdelta3_nix() {
+    if ! command -v xdelta3 &>/dev/null; then
+        echo "xdelta3 not found."
+        echo "Attempting to use nix-shell to run xdelta3 just for this session."
+        echo "If you prefer to install it permanently, you can use one of the following methods:"
+        echo -e "${GREEN}For user install:${NC} nix-env -iA nixpkgs.xdelta3"
+        echo -e "${GREEN}For system install:${NC} add xdelta3 to your configuration.nix and rebuild."
+
+        # Attempt to run xdelta3 using nix-shell
+        if ! nix-shell -p xdelta --run "xdelta3 -V" &>/dev/null; then
+            echo -e "${RED}Failed to run xdelta3 using nix-shell.${NC}"
+            echo "Please install xdelta3 manually using the instructions provided above."
+            exit 1
+        else
+            echo -e "${GREEN}xdelta3 will be run using nix-shell for this session.${NC}"
+        fi
+    else
+        echo -e "${GREEN}xdelta3 is installed${NC}"
+    fi
+}
+
 # Check if the OS is Arch Linux
 if [ "$os_name" = "Arch Linux" ]; then
     # Prompt the user to update the system
@@ -80,6 +101,11 @@ if [ "$os_name" = "Debian" ] || [ "$os_name" = "Ubuntu" ]; then
     check_and_install_xdelta3_deb
 fi
 
+# Check if the OS is NixOS
+if [ "$os_name" = "NixOS" ]; then
+    check_and_install_xdelta3_nix
+fi
+
 default_dir="$HOME/.local/share/Steam/steamapps/common/mirrors edge"
 mirrors_edge_dir=""
 
@@ -101,8 +127,19 @@ mirrors_edge_dir=$(realpath "$mirrors_edge_dir")
 # Patch the Mirror's Edge executable
 echo -e "Patching Mirror's Edge executable"
 if ! xdelta3 -f -d -s "${mirrors_edge_dir}/Binaries/MirrorsEdge.exe" "./gog_noloads_steam.xdelta" "${mirrors_edge_dir}/Binaries/MirrorsEdge.exe"; then
-    echo "Failed to patch Mirror's Edge executable."
-    exit 1
+    # Check if the OS is NixOS and attempt to run xdelta3 in nix-shell
+    if [ "$os_name" = "NixOS" ]; then
+        echo "Detected NixOS. Attempting to run xdelta3 in nix-shell."
+        if ! nix-shell -p xdelta --run "xdelta3 -f -d -s '${mirrors_edge_dir}/Binaries/MirrorsEdge.exe' './gog_noloads_steam.xdelta' '${mirrors_edge_dir}/Binaries/MirrorsEdge.exe'"; then
+            echo "Failed to patch Mirror's Edge executable with nix-shell."
+            exit 1
+        else
+            echo -e "${GREEN}Mirror's Edge executable patched using nix-shell!${NC}"
+        fi
+    else
+        echo "Failed to patch Mirror's Edge executable."
+        exit 1
+    fi
 else
     echo -e "${GREEN}Mirror's Edge executable patched!${NC}"
 fi

@@ -10,6 +10,7 @@ MedgingOnLinux is a script that's designed to help get people speedrunning Mirro
 ### Supported distros
 - Arch Linux (and all derivatives, such as Manjaro or ElementaryOS)
 - Debian/Ubuntu (and all derivatives, such as Linux Mint or Pop_OS!)
+- NixOS
 
 
 ### Usage
