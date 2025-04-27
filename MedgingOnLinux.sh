@@ -69,6 +69,21 @@ check_and_install_xdelta3_nix() {
     fi
 }
 
+# Function to check and install xdelta3 on Fedora
+check_and_install_xdelta3_fedora() {
+    xdeltapkg="xdelta"
+    if dnf list --installed | grep -qw "${xdeltapkg}"; then
+        echo -e "${GREEN}${xdeltapkg} is installed${NC}"
+    else
+        if ! sudo dnf install -y "${xdeltapkg}"; then
+            echo "Failed to install ${xdeltapkg}."
+            exit 1
+        else
+            echo -e "${GREEN}${xdeltapkg} is installed${NC}"
+        fi
+    fi
+}
+
 # Check if the OS is Arch Linux
 if [ "$os_name" = "Arch Linux" ]; then
     # Prompt the user to update the system
@@ -104,6 +119,20 @@ fi
 # Check if the OS is NixOS
 if [ "$os_name" = "NixOS" ]; then
     check_and_install_xdelta3_nix
+fi
+
+# Check if the OS is Fedora
+if [ "$os_name" = "Fedora Linux" ] ; then
+    # Prompt the user to update the system
+    read -p "Do you want to update your operating system before continuing? It can prevent errors. (Y/N): " update_choice
+    if [[ "$update_choice" =~ ^[Yy]$ ]]; then
+        echo "Updating your operating system before continuing."
+        if ! sudo dnf upgrade -y; then
+            echo "Failed to update the system."
+            exit 1
+        fi
+    fi
+    check_and_install_xdelta3_fedora
 fi
 
 default_dir="$HOME/.local/share/Steam/steamapps/common/mirrors edge"
