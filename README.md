@@ -1,5 +1,11 @@
+> [!WARNING]
+> **Due to the Mirror's Edge leaderboard switching to Softimer, the contents of this repository are no longer relevant and it will soon be archived.**
+>   
+> **I will be making a guide on how to set up Softimer on Linux and that will act as a replacement for this repository.**
+
 # MedgingOnLinux
 MedgingOnLinux is a script that's designed to help get people speedrunning Mirror's Edge on Linux.
+
 
 ### Prerequisites
 - You have the Steam version installed (support for Origin may be added at some point).
